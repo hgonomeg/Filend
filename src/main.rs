@@ -9,6 +9,8 @@ pub use state::*;
 
 use gtk::prelude::*;
 use gio::prelude::*;
+use std::rc::Rc;
+use std::cell::RefCell;
 
 fn main() {
     let application = gtk::Application::new(
@@ -17,7 +19,8 @@ fn main() {
     ).expect("failed to initialize GTK application");
 
     application.connect_activate(|app| {
-        let window = MainWindow::new();
+        let state = Rc::from(RefCell::from(State::new()));
+        let window = MainWindow::new(state);
         window.set_application(app);
     });
 
