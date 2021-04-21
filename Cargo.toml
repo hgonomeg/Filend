@@ -12,4 +12,6 @@ actix-web = "3"
 [dependencies.gtk]
 version = "0.9"
 features = ["v3_16"]
-
+[dependencies.gio]
+version = ""
+features = ["v2_44"]
