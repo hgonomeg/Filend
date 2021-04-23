@@ -21,6 +21,16 @@ impl State {
         }
     }
     pub fn load(&mut self) {
+        self.gui_state = Some(Gui::new());
+        //self.local_files = Some()
 
+        
+    }
+    pub fn get_model(&self) -> Option<&gtk::ListStore> {
+        if let Some(gui) = &self.gui_state {
+            Some(gui.get_model())
+        } else {
+            None
+        }
     }
 }

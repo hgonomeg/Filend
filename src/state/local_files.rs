@@ -5,7 +5,7 @@ use rand::prelude::*;
 
 #[derive(Serialize,Deserialize)]
 pub struct LocalFiles {
-    files: BTreeMap<u32,PathBuf>
+    pub(self) files: BTreeMap<u32,PathBuf>
 }
 
 impl LocalFiles {
