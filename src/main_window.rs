@@ -3,6 +3,7 @@ use std::rc::Rc;
 use std::cell::RefCell;
 use glib::clone;
 use crate::state::State;
+use crate::about_window::AboutWindow;
 
 pub struct MainWindow {
     widget: gtk::ApplicationWindow,
@@ -61,9 +62,15 @@ impl MainWindow {
     pub fn init(&mut self) {
         self.state.borrow_mut().load();
         self.files_table.set_model(self.state.borrow().get_model());
-        self.file_add.connect_activate(|_arg| {
+        self.file_add.connect_activate(clone!( @weak self.widget as widget => move |_arg| {
+            let chooser = gtk::FileChooserDialog::new(
+                Some("Pick a file"),
+                Some(&widget),
+                gtk::FileChooserAction::Open
+            );
+            let resp = chooser.run();
             eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
-        });
+        }));
         self.file_quit.connect_activate(clone!(@weak self.widget as widget => move |_arg| {
             widget.close();
         }));
@@ -80,10 +87,10 @@ impl MainWindow {
             eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
         });
         self.help_about.connect_activate(|_arg| {
-            eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
+            let _about_window = AboutWindow::new();
         });
 
-        
+
         let generate_column = |title: &str, id: i32|{
             let column = gtk::TreeViewColumnBuilder::new().title(title).build();
             column.set_sort_column_id(id);

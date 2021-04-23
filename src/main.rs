@@ -7,6 +7,9 @@ pub use server::*;
 mod state;
 pub use state::*;
 
+mod about_window;
+pub use about_window::*;
+
 use gtk::prelude::*;
 use gio::prelude::*;
 use std::rc::Rc;
