@@ -42,7 +42,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkImageMenuItem" id="quit">
+                      <object class="GtkImageMenuItem" id="file_quit">
                         <property name="label">gtk-quit</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -115,7 +115,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <child>
-                      <object class="GtkImageMenuItem" id="about">
+                      <object class="GtkImageMenuItem" id="help_about">
                         <property name="label">gtk-about</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>

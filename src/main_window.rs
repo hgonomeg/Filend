@@ -5,6 +5,15 @@ use crate::state::State;
 
 pub struct MainWindow {
     widget: gtk::ApplicationWindow,
+    files_table: gtk::TreeView,
+    status_bar: gtk::Statusbar,
+    file_add: gtk::MenuItem,
+    file_quit: gtk::MenuItem,
+    edit_cut: gtk::MenuItem,
+    edit_copy: gtk::MenuItem,
+    edit_paste: gtk::MenuItem,
+    edit_delete: gtk::MenuItem,
+    help_about: gtk::MenuItem,
     state: Rc<RefCell<State>>,
 }
 
@@ -13,8 +22,38 @@ impl MainWindow {
         let builder = gtk::Builder::from_string(include_str!("main_window.ui"));
         let widget : gtk::ApplicationWindow = builder.get_object("main_window")
             .expect("Failed to load the main window");
+        let files_table : gtk::TreeView = builder.get_object("files_table")
+            .expect("Failed to fetch the files table");
+        let status_bar : gtk::Statusbar = builder.get_object("status_bar")
+            .expect("Failed to fetch the status bar");
+        let file_add : gtk::MenuItem = builder.get_object("file_add")
+            .expect("Failed to fetch the file->add menu option");
+        let file_quit : gtk::MenuItem = builder.get_object("file_quit")
+            .expect("Failed to fetch the edit->quit menu option");
+        let edit_cut : gtk::MenuItem = builder.get_object("edit_cut")
+            .expect("Failed to fetch the edit->cut menu option");
+        let edit_copy : gtk::MenuItem = builder.get_object("edit_copy")
+            .expect("Failed to fetch the edit->copy menu option");
+        let edit_paste : gtk::MenuItem = builder.get_object("edit_paste")
+            .expect("Failed to fetch the edit->paste menu option");
+        let edit_delete : gtk::MenuItem = builder.get_object("edit_delete")
+            .expect("Failed to fetch the edit->delete menu option");
+        let help_about : gtk::MenuItem = builder.get_object("help_about")
+            .expect("Failed to fetch the help->about menu option");
         widget.show_all();
-        let mut ret = Self { widget, state };
+        let mut ret = Self { 
+            widget, 
+            files_table, 
+            status_bar, 
+            state,
+            file_add,
+            file_quit,
+            edit_cut,
+            edit_copy,
+            edit_paste, 
+            edit_delete,
+            help_about
+        };
         ret.init();
         ret
     }
