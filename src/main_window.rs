@@ -19,7 +19,8 @@ impl MainWindow {
         ret
     }
     pub fn init(&mut self) {
-        
+        self.state.borrow_mut().load();
+
     }
     pub fn set_application(&self, app: &gtk::Application) {
         self.widget.set_application(Some(app));
