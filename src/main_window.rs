@@ -1,6 +1,7 @@
 use gtk::prelude::*;
 use std::rc::Rc;
 use std::cell::RefCell;
+use glib::clone;
 use crate::state::State;
 
 pub struct MainWindow {
@@ -59,7 +60,27 @@ impl MainWindow {
     }
     pub fn init(&mut self) {
         self.state.borrow_mut().load();
-
+        self.file_add.connect_activate(|_arg| {
+            eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
+        });
+        self.file_quit.connect_activate(clone!(@weak self.widget as widget => move |_arg| {
+            widget.close();
+        }));
+        self.edit_cut.connect_activate(|_arg| {
+            eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
+        });
+        self.edit_copy.connect_activate(|_arg| {
+            eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
+        });
+        self.edit_paste.connect_activate(|_arg| {
+            eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
+        });
+        self.edit_delete.connect_activate(|_arg| {
+            eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
+        });
+        self.help_about.connect_activate(|_arg| {
+            eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
+        });
     }
     pub fn set_application(&self, app: &gtk::Application) {
         self.widget.set_application(Some(app));
