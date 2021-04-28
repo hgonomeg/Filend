@@ -7,8 +7,8 @@
     * via Button
     * Drag and drop
   * Delete files
-  * Local file list
-    * Data synchronized upon GUI model change
+  * ✓ Local file list
+    * ✓ Data synchronized upon GUI model change
 * Edit -> Undo and Edit -> Redo
 
 ## Server
