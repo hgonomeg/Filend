@@ -15,7 +15,7 @@ impl LocalFiles {
         loop {
             ret = random();
             if ! self.files.contains_key(&ret) {
-                return ret;
+                break;
             }
         }
         self.files.insert(ret,filepath.to_owned());
