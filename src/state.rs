@@ -56,7 +56,7 @@ impl State {
     fn sync_local_files(&self) -> Result<(),String> {
         match self.local_files.as_ref().unwrap().save(&APP_INFO,prefs_key) {
             Err(_e) => {
-                return Err(format!("Couldn't create storage for local files!"));
+                return Err(format!("Couldn't save changes in the storage for local files!"));
             }
             Ok(()) => {
                 Ok(())
