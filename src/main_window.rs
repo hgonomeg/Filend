@@ -1,4 +1,5 @@
 use gtk::prelude::*;
+use gio::prelude::*;
 use std::rc::Rc;
 use std::cell::RefCell;
 use glib::clone;
@@ -61,14 +62,28 @@ impl MainWindow {
     }
     pub fn init(&mut self) {
         self.state.borrow_mut().load().unwrap();
+
+        let state = self.state.clone();
         self.file_add.connect_activate(clone!( @weak self.widget as widget => move |_arg| {
-            let chooser = gtk::FileChooserDialog::new(
+            let chooser = gtk::FileChooserDialog::with_buttons(
                 Some("Pick a file"),
                 Some(&widget),
-                gtk::FileChooserAction::Open
+                gtk::FileChooserAction::Open,
+                &[("_Cancel", gtk::ResponseType::Cancel), ("_Open", gtk::ResponseType::Accept)]
             );
-            let resp = chooser.run();
-            eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
+            match chooser.run() {
+                gtk::ResponseType::Accept => {
+                    let files = chooser.get_files();
+                    for i in files {
+                        state.borrow_mut().add_file(&i.get_path().unwrap()).unwrap();
+                    }
+                    
+                }
+                _ => {
+
+                }
+            }
+            chooser.close();
         }));
         self.file_quit.connect_activate(clone!(@weak self.widget as widget => move |_arg| {
             widget.close();
