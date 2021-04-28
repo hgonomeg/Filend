@@ -11,6 +11,8 @@
     * ✓ Data synchronized upon GUI model change
 * Click to get a link to the file
 * Edit -> Undo and Edit -> Redo
+* Server configuration
+  * Configurable port
 
 ## Server
 

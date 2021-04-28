@@ -7,6 +7,8 @@ pub use local_files::*;
 pub mod gui;
 pub use gui::*;
 
+use crate::server::*;
+
 use std::path::Path;
 
 pub const APP_INFO: AppInfo = AppInfo{name: "filend", author: "hgonomeg@gmail.com"};
@@ -15,13 +17,15 @@ const prefs_key: &str = "local_files";
 pub struct State {
     local_files: Option<LocalFiles>,
     gui_state: Option<Gui>,
+    server: Option<Server>
 }
 
 impl State {
     pub fn new() -> Self {
         Self { 
             local_files: None,
-            gui_state: None
+            gui_state: None,
+            server: None
         }
     }
     pub fn load(&mut self) -> Result<(),String> {
@@ -44,6 +48,8 @@ impl State {
         for (id,filepath) in &self.local_files.as_ref().unwrap().files {
             self.gui_state.as_ref().unwrap().add_file(id,filepath);
         }
+        self.server = Some(Server::new(7789));
+        
         Ok(())
     }
     pub fn get_model(&self) -> Option<&gtk::ListStore> {
