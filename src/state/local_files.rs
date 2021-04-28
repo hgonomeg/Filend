@@ -10,16 +10,16 @@ pub struct LocalFiles {
 }
 
 impl LocalFiles {
-    pub fn add_file(&mut self, filepath: &Path) {
-        let get_id = || -> u32 {
-            loop {
-                let ret : u32  = random();
-                if ! self.files.contains_key(&ret) {
-                    return ret;
-                }
+    pub fn add_file(&mut self, filepath: &Path) -> u32 {
+        let mut ret : u32;
+        loop {
+            ret = random();
+            if ! self.files.contains_key(&ret) {
+                return ret;
             }
-        };
-        self.files.insert(get_id(),filepath.to_owned());
+        }
+        self.files.insert(ret,filepath.to_owned());
+        ret
     }
     pub fn id_to_hexstring(id: u32) -> String {
         format!("{:x}",id)

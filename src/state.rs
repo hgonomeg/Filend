@@ -66,7 +66,8 @@ impl State {
     pub fn add_file(&mut self, file: &Path) -> Result<(),String> {
         match self.local_files.as_mut() {
             Some(mut files) => {
-                files.add_file(file);
+                let id = files.add_file(file);
+                self.gui_state.as_ref().unwrap().add_file(&id,file);
                 self.sync_local_files()?;
                 Ok(())
             },
