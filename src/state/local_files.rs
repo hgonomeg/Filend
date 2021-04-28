@@ -6,7 +6,7 @@ use rand::prelude::*;
 
 #[derive(Serialize,Deserialize,Debug,PartialEq,Default)]
 pub struct LocalFiles {
-    pub(self) files: BTreeMap<u32,PathBuf>
+    pub(super) files: BTreeMap<u32,PathBuf>
 }
 
 impl LocalFiles {
@@ -20,5 +20,8 @@ impl LocalFiles {
             }
         };
         self.files.insert(get_id(),filepath.to_owned());
+    }
+    pub fn id_to_hexstring(id: u32) -> String {
+        format!("{:x}",id)
     }
 }

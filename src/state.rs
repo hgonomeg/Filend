@@ -27,22 +27,22 @@ impl State {
         match LocalFiles::load(&APP_INFO,prefs_key) {
             Ok(local_files) => {
                 self.local_files = Some(local_files);
-                Ok(())
             },
             Err(_e) => {
                 eprintln!("Couldn't load local files' list! Generating a new one...");
                 self.local_files = Some(LocalFiles::default());
                 match self.local_files.as_ref().unwrap().save(&APP_INFO,prefs_key) {
-                    Ok(_) => {
-                        Ok(())
-                    },
                     Err(_e) => {
-                        Err(format!("Couldn't create storage for local files!"))
+                        return Err(format!("Couldn't create storage for local files!"));
                     }
+                    _ => {}
                 }
-                
             }
         }   
+        for (id,filepath) in &self.local_files.as_ref().unwrap().files {
+            self.gui_state.as_ref().unwrap().add_file(id,filepath);
+        }
+        Ok(())
     }
     pub fn get_model(&self) -> Option<&gtk::ListStore> {
         if let Some(gui) = &self.gui_state {

@@ -61,7 +61,6 @@ impl MainWindow {
     }
     pub fn init(&mut self) {
         self.state.borrow_mut().load().unwrap();
-        self.files_table.set_model(self.state.borrow().get_model());
         self.file_add.connect_activate(clone!( @weak self.widget as widget => move |_arg| {
             let chooser = gtk::FileChooserDialog::new(
                 Some("Pick a file"),
@@ -108,6 +107,7 @@ impl MainWindow {
         for i in column_names.iter().enumerate().map(|(id,title)| generate_column(title,id as i32)) {
             self.files_table.append_column(&i);
         } 
+        self.files_table.set_model(self.state.borrow().get_model());
     }
     pub fn set_application(&self, app: &gtk::Application) {
         self.widget.set_application(Some(app));
