@@ -1,3 +1,6 @@
+#[macro_use]
+extern crate serde_derive;
+
 mod main_window;
 pub use main_window::*;
 

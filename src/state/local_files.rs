@@ -1,9 +1,10 @@
-use serde::{Serialize,Deserialize};
+extern crate serde_derive;
+use preferences::Preferences;
 use std::collections::BTreeMap;
 use std::path::{Path,PathBuf};
 use rand::prelude::*;
 
-#[derive(Serialize,Deserialize)]
+#[derive(Serialize,Deserialize,Debug,PartialEq,Default)]
 pub struct LocalFiles {
     pub(self) files: BTreeMap<u32,PathBuf>
 }

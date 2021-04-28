@@ -60,7 +60,7 @@ impl MainWindow {
         ret
     }
     pub fn init(&mut self) {
-        self.state.borrow_mut().load();
+        self.state.borrow_mut().load().unwrap();
         self.files_table.set_model(self.state.borrow().get_model());
         self.file_add.connect_activate(clone!( @weak self.widget as widget => move |_arg| {
             let chooser = gtk::FileChooserDialog::new(

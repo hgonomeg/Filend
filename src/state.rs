@@ -1,4 +1,5 @@
-use preferences::AppInfo;
+use preferences::{Preferences,AppInfo};
+extern crate serde_derive;
 
 pub mod local_files;
 pub use local_files::*;
@@ -20,11 +21,28 @@ impl State {
             gui_state: None
         }
     }
-    pub fn load(&mut self) {
+    pub fn load(&mut self) -> Result<(),String> {
         self.gui_state = Some(Gui::new());
-        //self.local_files = Some()
-
-        
+        let prefs_key = "local_files";
+        match LocalFiles::load(&APP_INFO,prefs_key) {
+            Ok(local_files) => {
+                self.local_files = Some(local_files);
+                Ok(())
+            },
+            Err(_e) => {
+                eprintln!("Couldn't load local files' list! Generating a new one...");
+                self.local_files = Some(LocalFiles::default());
+                match self.local_files.as_ref().unwrap().save(&APP_INFO,prefs_key) {
+                    Ok(_) => {
+                        Ok(())
+                    },
+                    Err(_e) => {
+                        Err(format!("Couldn't create storage for local files!"))
+                    }
+                }
+                
+            }
+        }   
     }
     pub fn get_model(&self) -> Option<&gtk::ListStore> {
         if let Some(gui) = &self.gui_state {
