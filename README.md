@@ -23,5 +23,5 @@ The program requires you and your friend to have direct IP connection between yo
 
 ## How it works
 
-The program launches a HTTP server on a custom port (default: 7789), based on Actix-Web.
+The program launches a HTTP server on a custom port (default: `7789`), based on Actix-Web.
 Direct connection between your computers makes it possible to generate unique URLs to identify files that you share between each other

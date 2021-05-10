@@ -36,7 +36,7 @@ async fn server_main(state: ServerAppState, port: u16) -> std::result::Result<()
             .data(state.clone().take().unwrap())
             .service(index)
     })
-    .bind(format!("127.0.0.1:{}",port).as_str())?
+    .bind(format!("0.0.0.0:{}",port).as_str())?
     .run()
     .await
 }

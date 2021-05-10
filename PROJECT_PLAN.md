@@ -13,8 +13,10 @@
 * Edit -> Undo and Edit -> Redo
 * Server configuration
   * Configurable port
+* Show current server status in the status bar
 
 ## Server
 
-* Launching server on a separate thread
-* Basic downloads should be handled
+* ✓ Launching server on a separate thread
+* ✓ Basic downloads should be handled
+* Server stops gracefully
