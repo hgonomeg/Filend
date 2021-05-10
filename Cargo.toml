@@ -13,9 +13,10 @@ serde = "0.9"
 serde_derive = "0.9"
 glib = "0.10"
 rand = "0.8"
+crossbeam-channel = "0.5"
 [dependencies.gtk]
 version = "0.9"
-features = ["v3_16"]
+features = ["v3_24"]
 [dependencies.gio]
-version = ""
-features = ["v2_44"]
+version = "0.9"
+features = ["v2_64"]

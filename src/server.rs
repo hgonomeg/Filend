@@ -2,7 +2,7 @@ use actix_web::{App,get,post,HttpResponse,HttpServer};
 use std::thread;
 use std::boxed::Box;
 use std::path::Path;
-use std::sync::mpsc::*;
+use crossbeam_channel::*;
 
 enum ServerCommand {
     Quit
@@ -15,7 +15,7 @@ pub struct Server {
 
 impl Server {
     pub fn new(_port: u16) -> Self {
-        let (sender,receiver) = channel::<ServerCommand>();
+        let (sender,receiver) = bounded::<ServerCommand>(4);
         Self {  
             server_thread: Some(thread::spawn(move || {
                 let _server = HttpServer::new(|| App::new(

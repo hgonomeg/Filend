@@ -49,7 +49,9 @@ impl State {
             self.gui_state.as_ref().unwrap().add_file(id,filepath);
         }
         self.server = Some(Server::new(7789));
-        
+        for (id,filepath) in &self.local_files.as_ref().unwrap().files {
+            self.server.as_ref().unwrap().add_file(*id,filepath);
+        }
         Ok(())
     }
     pub fn get_model(&self) -> Option<&gtk::ListStore> {
@@ -75,6 +77,7 @@ impl State {
                 let id = files.add_file(file);
                 self.gui_state.as_ref().unwrap().add_file(&id,file);
                 self.sync_local_files()?;
+                self.server.as_ref().unwrap().add_file(id,file);
                 Ok(())
             },
             None => {
