@@ -12,7 +12,7 @@ use crate::server::*;
 use std::path::Path;
 
 pub const APP_INFO: AppInfo = AppInfo{name: "filend", author: "hgonomeg@gmail.com"};
-const prefs_key: &str = "local_files";
+const PREFS_KEY: &str = "local_files";
 
 pub struct State {
     local_files: Option<LocalFiles>,
@@ -30,14 +30,14 @@ impl State {
     }
     pub fn load(&mut self) -> Result<(),String> {
         self.gui_state = Some(Gui::new());
-        match LocalFiles::load(&APP_INFO,prefs_key) {
+        match LocalFiles::load(&APP_INFO,PREFS_KEY) {
             Ok(local_files) => {
                 self.local_files = Some(local_files);
             },
             Err(_e) => {
                 eprintln!("Couldn't load local files' list! Generating a new one...");
                 self.local_files = Some(LocalFiles::default());
-                match self.local_files.as_ref().unwrap().save(&APP_INFO,prefs_key) {
+                match self.local_files.as_ref().unwrap().save(&APP_INFO,PREFS_KEY) {
                     Err(_e) => {
                         return Err(format!("Couldn't create storage for local files!"));
                     }
@@ -60,7 +60,7 @@ impl State {
         }
     }
     fn sync_local_files(&self) -> Result<(),String> {
-        match self.local_files.as_ref().unwrap().save(&APP_INFO,prefs_key) {
+        match self.local_files.as_ref().unwrap().save(&APP_INFO,PREFS_KEY) {
             Err(_e) => {
                 return Err(format!("Couldn't save changes in the storage for local files!"));
             }
