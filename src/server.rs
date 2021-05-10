@@ -5,7 +5,6 @@ use std::collections::HashMap;
 use std::path::{PathBuf,Path};
 use std::sync::{Arc,Mutex};
 use crossbeam_channel::*;
-use futures_executor::block_on;
 use crate::local_files::LocalFiles;
 
 enum ServerCommand {
@@ -23,10 +22,23 @@ struct ServerAppState {
     served_files: Arc<Mutex<HashMap<String,PathBuf>>>
 }
 
-#[get("/filend/{file_id}")] // <- define path parameters
+#[get("/filend/{file_id}")] 
 async fn index(web::Path(file_id): web::Path<String>, data: web::Data<ServerAppState>) ->  Result<NamedFile> {
     let path: PathBuf = data.served_files.lock().unwrap()[&file_id].clone();
     Ok(NamedFile::open(path)?)
+}
+
+#[actix_rt::main]
+async fn server_main(state: ServerAppState, port: u16) -> std::result::Result<(), std::io::Error> {
+    let mut state = Some(state);
+    HttpServer::new(move || {
+        App::new()
+            .data(state.clone().take().unwrap())
+            .service(index)
+    })
+    .bind(format!("127.0.0.1:{}",port).as_str())?
+    .run()
+    .await
 }
 
 impl Server {
@@ -35,18 +47,7 @@ impl Server {
         let served_files = Arc::from(Mutex::from(HashMap::default()));
         let state = ServerAppState { served_files: served_files.clone() };
         let server_handle = Some(thread::spawn(move || {
-            let server = async { 
-                let mut state = Some(state);
-                HttpServer::new(move || {
-                    App::new()
-                        .data(state.clone().take().unwrap())
-                        .service(index)
-                })
-                .bind(format!("127.0.0.1:{}",port).as_str()).unwrap()
-                .run()
-                .await
-            };
-            block_on(server).unwrap();
+            server_main(state, port).expect("Server crashed");
         }));
 
         Self {  
