@@ -24,7 +24,10 @@ struct ServerAppState {
 
 #[get("/filend/{file_id}")] 
 async fn index(web::Path(file_id): web::Path<String>, data: web::Data<ServerAppState>) ->  Result<NamedFile> {
-    let path: PathBuf = data.served_files.lock().unwrap()[&file_id].clone();
+    let mut path = PathBuf::default();
+    {
+        path = data.served_files.lock().expect("Failed to access the mutex protecting served_files.")[&file_id].clone();
+    }
     Ok(NamedFile::open(path)?)
 }
 
