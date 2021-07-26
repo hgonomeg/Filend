@@ -1,5 +1,4 @@
 extern crate serde_derive;
-use preferences::Preferences;
 use std::collections::BTreeMap;
 use std::path::{Path,PathBuf};
 use rand::prelude::*;

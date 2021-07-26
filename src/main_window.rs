@@ -12,10 +12,6 @@ pub struct MainWindow {
     status_bar: gtk::Statusbar,
     file_add: gtk::MenuItem,
     file_quit: gtk::MenuItem,
-    edit_cut: gtk::MenuItem,
-    edit_copy: gtk::MenuItem,
-    edit_paste: gtk::MenuItem,
-    edit_delete: gtk::MenuItem,
     help_about: gtk::MenuItem,
     state: Rc<RefCell<State>>,
 }
@@ -33,14 +29,6 @@ impl MainWindow {
             .expect("Failed to fetch the file->add menu option");
         let file_quit : gtk::MenuItem = builder.get_object("file_quit")
             .expect("Failed to fetch the edit->quit menu option");
-        let edit_cut : gtk::MenuItem = builder.get_object("edit_cut")
-            .expect("Failed to fetch the edit->cut menu option");
-        let edit_copy : gtk::MenuItem = builder.get_object("edit_copy")
-            .expect("Failed to fetch the edit->copy menu option");
-        let edit_paste : gtk::MenuItem = builder.get_object("edit_paste")
-            .expect("Failed to fetch the edit->paste menu option");
-        let edit_delete : gtk::MenuItem = builder.get_object("edit_delete")
-            .expect("Failed to fetch the edit->delete menu option");
         let help_about : gtk::MenuItem = builder.get_object("help_about")
             .expect("Failed to fetch the help->about menu option");
         widget.show_all();
@@ -51,10 +39,6 @@ impl MainWindow {
             state,
             file_add,
             file_quit,
-            edit_cut,
-            edit_copy,
-            edit_paste, 
-            edit_delete,
             help_about
         };
         ret.init();
@@ -88,18 +72,6 @@ impl MainWindow {
         self.file_quit.connect_activate(clone!(@weak self.widget as widget => move |_arg| {
             widget.close();
         }));
-        self.edit_cut.connect_activate(|_arg| {
-            eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
-        });
-        self.edit_copy.connect_activate(|_arg| {
-            eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
-        });
-        self.edit_paste.connect_activate(|_arg| {
-            eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
-        });
-        self.edit_delete.connect_activate(|_arg| {
-            eprintln!("You clicked {}. Implement me!",_arg.get_label().unwrap());
-        });
         self.help_about.connect_activate(|_arg| {
             let _about_window = AboutWindow::new();
         });
