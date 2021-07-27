@@ -33,7 +33,11 @@
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Writtem by Jakub Smulski</property>
+            <property name="label" translatable="yes">Written by Jakub Smulski
+License: GNU GPL
+Report bugs to: hgonomeg@gmail.com</property>
+            <property name="justify">center</property>
+            <property name="selectable">True</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -43,7 +47,16 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkLabel" id="version_label">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Unknown version</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
         </child>
       </object>
     </child>
