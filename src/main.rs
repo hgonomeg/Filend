@@ -13,6 +13,8 @@ pub use state::*;
 mod about_window;
 pub use about_window::*;
 
+mod ui_framework;
+
 use gtk::prelude::*;
 use gio::prelude::*;
 use std::rc::Rc;
