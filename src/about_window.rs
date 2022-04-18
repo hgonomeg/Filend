@@ -1,5 +1,6 @@
 use gtk::prelude::*;
 
+#[allow(dead_code)]
 pub struct AboutWindow {
     widget: gtk::Window,
     version_label: gtk::Label

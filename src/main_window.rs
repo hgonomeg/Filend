@@ -1,10 +1,9 @@
 use gtk::{builders::*,prelude::*};
 // use gio::prelude::*;
-use std::rc::Rc;
-use std::cell::RefCell;
 use glib::clone;
 use crate::state::State;
 use crate::about_window::AboutWindow;
+use crate::ui_framework::*;
 
 pub struct MainWindow {
     widget: gtk::ApplicationWindow,
@@ -13,11 +12,11 @@ pub struct MainWindow {
     file_add: gtk::MenuItem,
     file_quit: gtk::MenuItem,
     help_about: gtk::MenuItem,
-    state: Rc<RefCell<State>>,
+    state: Handle<State>,
 }
 
 impl MainWindow {
-    pub fn new(state: Rc<RefCell<State>>) -> Self {
+    pub fn new(state: Handle<State>) -> Self {
         let builder = gtk::Builder::from_string(include_str!("main_window.ui"));
         let widget : gtk::ApplicationWindow = builder.object("main_window")
             .expect("Failed to load the main window");
