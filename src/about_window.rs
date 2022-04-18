@@ -12,9 +12,9 @@ impl AboutWindow {
     }
     pub fn new() -> Self {
         let builder = gtk::Builder::from_string(include_str!("about_window.ui"));
-        let widget : gtk::Window = builder.get_object("about_window")
+        let widget : gtk::Window = builder.object("about_window")
             .expect("Failed to load the about window");
-        let version_label : gtk::Label = builder.get_object("version_label")
+        let version_label : gtk::Label = builder.object("version_label")
             .expect("Failed to load the version label");
         widget.show_all();
         let mut ret = Self{

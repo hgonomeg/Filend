@@ -1,5 +1,5 @@
-use gtk::prelude::*;
-use gio::prelude::*;
+use gtk::{builders::*,prelude::*};
+// use gio::prelude::*;
 use std::rc::Rc;
 use std::cell::RefCell;
 use glib::clone;
@@ -19,17 +19,17 @@ pub struct MainWindow {
 impl MainWindow {
     pub fn new(state: Rc<RefCell<State>>) -> Self {
         let builder = gtk::Builder::from_string(include_str!("main_window.ui"));
-        let widget : gtk::ApplicationWindow = builder.get_object("main_window")
+        let widget : gtk::ApplicationWindow = builder.object("main_window")
             .expect("Failed to load the main window");
-        let files_table : gtk::TreeView = builder.get_object("files_table")
+        let files_table : gtk::TreeView = builder.object("files_table")
             .expect("Failed to fetch the files table");
-        let status_bar : gtk::Statusbar = builder.get_object("status_bar")
+        let status_bar : gtk::Statusbar = builder.object("status_bar")
             .expect("Failed to fetch the status bar");
-        let file_add : gtk::MenuItem = builder.get_object("file_add")
+        let file_add : gtk::MenuItem = builder.object("file_add")
             .expect("Failed to fetch the file->add menu option");
-        let file_quit : gtk::MenuItem = builder.get_object("file_quit")
+        let file_quit : gtk::MenuItem = builder.object("file_quit")
             .expect("Failed to fetch the edit->quit menu option");
-        let help_about : gtk::MenuItem = builder.get_object("help_about")
+        let help_about : gtk::MenuItem = builder.object("help_about")
             .expect("Failed to fetch the help->about menu option");
         widget.show_all();
         let mut ret = Self { 
@@ -57,9 +57,9 @@ impl MainWindow {
             );
             match chooser.run() {
                 gtk::ResponseType::Accept => {
-                    let files = chooser.get_files();
+                    let files = chooser.files();
                     for i in files {
-                        state.borrow_mut().add_file(&i.get_path().unwrap()).unwrap();
+                        state.borrow_mut().add_file(&i.path().unwrap()).unwrap();
                     }
                     
                 }
@@ -78,10 +78,10 @@ impl MainWindow {
 
 
         let generate_column = |title: &str, id: i32|{
-            let column = gtk::TreeViewColumnBuilder::new().title(title).build();
+            let column = TreeViewColumnBuilder::new().title(title).build();
             column.set_sort_column_id(id);
             column.set_resizable(true);
-            let renderer = gtk::CellRendererTextBuilder::new().build();
+            let renderer = CellRendererTextBuilder::new().build();
             column.pack_start(&renderer,true);
             column.add_attribute(&renderer, "text", id);
             column

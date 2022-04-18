@@ -22,7 +22,7 @@ fn main() {
     let application = gtk::Application::new(
         Some("com.github.hgonomeg.filend"),
         Default::default(),
-    ).expect("failed to initialize GTK application");
+    );
 
     application.connect_activate(|app| {
         let state = Rc::from(RefCell::from(State::new()));
@@ -30,6 +30,6 @@ fn main() {
         window.set_application(app);
     });
 
-    let ret = application.run(&std::env::args().collect::<Vec<_>>());
+    let ret = application.run();
     std::process::exit(ret);
 }
