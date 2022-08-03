@@ -7,7 +7,7 @@ pub use local_files::*;
 pub mod gui;
 pub use gui::*;
 
-use crate::server::*;
+use crate::{server::*, ui_framework::IntoHandle};
 
 use std::path::Path;
 
@@ -84,5 +84,11 @@ impl State {
                 Err(format!("Local files' database uninitialized!"))
             }
         }
+    }
+}
+
+impl IntoHandle for State {
+    fn init(_this: &crate::ui_framework::Handle<Self>) {
+        
     }
 }
