@@ -4,7 +4,9 @@ A utility program aiming to make it convenient to directly share files with peop
 
 ## Project completion
 
-See the current completion status, [here](PROJECT_PLAN.md).
+There is a roughly working bare-bones GUI version on the main branch right now.
+
+The whole thing is being rewritten so that the GUI is separated from the service.
 
 ## Usage
 
