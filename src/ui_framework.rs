@@ -1,3 +1,4 @@
+//! Stores custom message-passing oriented wrappers to facilitate more event-driven and declarative layout
 use glib::Sender;
 use std::cell::RefCell;
 use std::ops::{Deref, DerefMut};
@@ -18,7 +19,7 @@ impl<T> Handle<T> {
     }
 }
 
-/// Non-owning version of Handle
+/// Non-owning version of [Handle]
 pub struct WeakHandle<T> {
     inner: Weak<RefCell<T>>,
 }
@@ -41,17 +42,21 @@ impl<T> Clone for WeakHandle<T> {
     }
 }
 
+/// A unified interface for wrapping objects into [Handle]\<T\> and performing additional initialization
 pub trait IntoHandle: Sized {
-    fn into_handle(self) -> Handle<Self>;
+    /// Wraps the source object into [Handle]
+    /// and calls [init()](Self::init) on it.
+    fn into_handle(self) -> Handle<Self> {
+        let ret = Handle {
+            inner: Rc::from(RefCell::from(self)),
+        };
+        Self::init(&ret);
+        ret
+    }
+    /// The required initialization method
+    fn init(this: &Handle<Self>);
 }
 
-impl<T> IntoHandle for T {
-    fn into_handle(self) -> Handle<Self> {
-        Handle {
-            inner: Rc::from(RefCell::from(self)),
-        }
-    }
-}
 impl<T> Deref for Handle<T> {
     type Target = Rc<RefCell<T>>;
     fn deref(&self) -> &Self::Target {
@@ -79,7 +84,7 @@ impl<T> Clone for Handle<T> {
 pub trait MessageHandler<M>: Sized + 'static {
     /// Returns a sender which can be used to send messages of a given type to the object.
     ///
-    /// The corresponding receiver will handle the messages using the `handle()` method.
+    /// The corresponding receiver will handle the messages using the [handle()](Self::handle) method.
     fn create_sender(source: &Handle<Self>) -> Sender<M> {
         let (tx, rx) = glib::MainContext::channel(glib::Priority::default());
         let handle = Handle::clone(source);
@@ -99,9 +104,9 @@ pub trait MessageHandler<M>: Sized + 'static {
     fn handle(&mut self, handle: Handle<Self>, msg: M);
 }
 
-/// Convenience trait for Handle<T>, providing Handle<T>::send(M) for T implementing MessageHandler
+/// Convenience trait for [Handle]\<T\>, providing [Handle\<T\>::send(M)](Handle::send) for `T` implementing [MessageHandler]
 pub trait MessageHandlerProxy<M>: Sized + 'static {
-    /// Convenience method that creates a glib::Sender<M> for a single use and uses it to send the given message.
+    /// Convenience method that creates a `glib::Sender<M>` for a single use and uses it to send the given message.
     fn send(&self, msg: M);
 }
 impl<T, M> MessageHandlerProxy<M> for Handle<T>
